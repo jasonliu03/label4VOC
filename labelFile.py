@@ -154,12 +154,13 @@ if __name__ == '__main__':
     labelFile = LabelFile()
     labelFile.verified = True
     
-    fp = u"/home/jason/projects/tensorflow/label4VOC/*"
+    #fp = u"/home/jason/projects/tensorflow/label4VOC/*"
+    fp = u"/home/jason/projects/opencv/selectROI/dst/*"
     for fn in glob(fp):
         imgFileName = os.path.basename(fn)
         savedFileName = os.path.splitext(imgFileName)[0] 
         dirName = os.path.dirname(fn)
-        dirName = os.path.join(dirName, "xml_VOC")
+        dirName = os.path.join(dirName, "Annotations")
         if not os.path.exists(dirName):
             os.mkdir(dirName)
         annotationFilePath = os.path.join(dirName, savedFileName)
