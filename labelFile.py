@@ -153,11 +153,30 @@ class LabelFile(object):
 if __name__ == '__main__':
     labelFile = LabelFile()
     labelFile.verified = True
+
+    with open("roi_fileList.txt") as infile:
+        lines = infile.readlines()
+        roi_dict = {}
+        for l in lines:
+            kv = l.strip('\n').split('\t')
+            roi_dict[kv[0]] = kv[1]
     
-    #fp = u"/home/jason/projects/tensorflow/label4VOC/*"
-    fp = u"/home/jason/projects/opencv/selectROI/dst/*"
+    #fp = u"/home/jason/projects/tensorflow/TFFRCNN/VOCdevkit/VOC2007/JPEGImages/*"
+    fp = u"/home/jason/projects/opencv/selectROI/src/*"
     for fn in glob(fp):
         imgFileName = os.path.basename(fn)
+
+        pt1 = []
+        pt2 = []
+        if imgFileName not in roi_dict.keys():
+            continue
+        else:
+            axe = roi_dict[imgFileName].split(",")
+            pt1.append(int(axe[0]))
+            pt1.append(int(axe[1]))
+            pt2.append(int(axe[2]))
+            pt2.append(int(axe[3]))
+
         savedFileName = os.path.splitext(imgFileName)[0] 
         dirName = os.path.dirname(fn)
         dirName = os.path.join(dirName, "Annotations")
@@ -175,7 +194,8 @@ if __name__ == '__main__':
             continue
         imageShape = [image.height(), image.width(),
                        1 if image.isGrayscale() else 3]
-        shapes[0]['points'] = [(0, 0), (image.width(), 0), (image.width(), image.height()), (0, image.height())]
+        #shapes[0]['points'] = [(0, 0), (image.width(), 0), (image.width(), image.height()), (0, image.height())]
+        shapes[0]['points'] = [(pt1[0], pt1[1]), (pt2[0], pt1[1]), (pt2[0], pt2[1]), (pt1[0], pt2[1])]
 
         print ("filePath:", filePath)
         print ("annotationFilePath:", annotationFilePath)

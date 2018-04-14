@@ -1,10 +1,10 @@
 import os  
 import random  
   
-trainval_percent = 0.66  
-train_percent = 0.5  
+trainval_percent = 0.8  
+train_percent = 0.8  
 xmlfilepath = 'Annotations'  
-txtsavepath = 'ImageSets\Main'  
+txtsavepath = 'ImageSets/Main'  
 total_xml = os.listdir(xmlfilepath)  
   
 num=len(total_xml)  
@@ -14,8 +14,8 @@ tr=int(tv*train_percent)
 trainval= random.sample(list,tv)  
 train=random.sample(trainval,tr)  
   
-if not os.path.exists('ImageSets/Main'):
-    os.makedirs('ImageSets/Main')
+if not os.path.exists(txtsavepath):
+    os.makedirs(txtsavepath)
 ftrainval = open('ImageSets/Main/trainval.txt', 'w')  
 ftest = open('ImageSets/Main/test.txt', 'w')  
 ftrain = open('ImageSets/Main/train.txt', 'w')  
